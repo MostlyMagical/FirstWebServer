@@ -29,7 +29,9 @@ exports.findFilms = async (req, res) => {
 
 exports.updateFilm = async (req, res) => {
     try{
-        const update = await Film.updateOne({watched: req.params.name})
+        const update = await Film.updateOne({query, updateValue})
+        const query = req.params.name
+        const updateValue = req.params.watched
         res.status(200).send({film: update, watched: req.params.watched, message: "successfully updated film"})
     } catch(error) {
         res.status(500).send({err: error})
