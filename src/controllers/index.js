@@ -1,4 +1,4 @@
-const Film = require("../models")
+const {Film, User} = require("../models")
 
 exports.helloWorld = (req, res) => {
     res.send("Garfield Says Hello World!")
@@ -10,6 +10,7 @@ exports.helloWorld = (req, res) => {
 
 exports.addFilm = async (req, res) => {
     try{
+        console.log(req.user)
         const film = new Film(req.body)
         await film.save()
         res.status(200).send({film: film, message: "successfully added film"})
@@ -29,9 +30,10 @@ exports.findFilms = async (req, res) => {
 
 exports.updateFilm = async (req, res) => {
     try{
-        const update = await Film.updateOne({query, updateValue})
-        const query = req.params.name
-        const updateValue = req.params.watched
+        await Film.updateOne(
+            {name: req.body.filter},
+            {$Set: {watched: req.body.update}}
+        )
         res.status(200).send({film: update, watched: req.params.watched, message: "successfully updated film"})
     } catch(error) {
         res.status(500).send({err: error})
@@ -45,5 +47,23 @@ exports.deleteFilm = async (req, res) => {
         res.status(200).send({Film:destroy, name: req.params.name, message: "successfully deleted film"})
     } catch (error) {
         res.status(500).send({err: error})
+    }
+}
+
+exports.addUser = async (req, res) => {
+    try {
+        const user = new User(req.body)
+        await user.save()
+        res.status(200).send(user)
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}
+
+exports.findUser = async (req, res) => {
+    try {
+        res.status(200).send(req.user)
+    } catch (error) {
+        res.status(502).send(error)
     }
 }

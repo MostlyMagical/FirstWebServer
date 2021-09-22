@@ -5,13 +5,18 @@ const {
     findFilms,
     updateFilm,
     deleteFilm,
+    addUser,
+    findUser
 } = require("../controllers")
+const {testMiddle, hashPassword, decryptPassword} = require("../middleWare")
 
-helloRouter.get("/steve", findFilms);
-helloRouter.post("/steve", addFilm);
+helloRouter.get("/film", findFilms);
+helloRouter.post("/film", testMiddle, addFilm);
 // helloRouter.put("/steve", updateSteve);
-helloRouter.patch("/steve/:name", updateFilm);
-helloRouter.delete("/steve/:name", deleteFilm);
+helloRouter.patch("/film/", updateFilm);
+helloRouter.delete("/film/:name", deleteFilm);
+helloRouter.post("/user", hashPassword, addUser);
+helloRouter.post("/user/login", decryptPassword, findUser)
 
 // const {
 //     getFilm

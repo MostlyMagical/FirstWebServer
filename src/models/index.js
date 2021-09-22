@@ -1,4 +1,5 @@
 // const { string } = require("mongoose")
+const { string } = require("joi")
 const mongoose = require("mongoose")
 
 const filmSchema = mongoose.Schema({
@@ -19,4 +20,24 @@ const filmSchema = mongoose.Schema({
 
 const Film = mongoose.model("Film", filmSchema)
 
-module.exports = Film
+const userSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    }, 
+    password: {
+        type: String,
+        required: true
+    }
+})
+
+const User = mongoose.model("User", userSchema)
+
+module.exports = {
+    Film,
+    User,
+}
